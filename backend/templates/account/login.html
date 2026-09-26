@@ -1,0 +1,24 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n socialaccount %}
+
+{% block content %}
+  <h1>{% trans "Sign in" %}</h1>
+
+  <form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }} {{ field }}
+        {{ field.errors }}
+      </p>
+    {% endfor %}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+    {% endif %}
+    <button type="submit">{% trans "Sign in with email" %}</button>
+  </form>
+
+  <hr>
+  <a href="{% provider_login_url 'google' %}">Sign in with Google</a>
+{% endblock %}
